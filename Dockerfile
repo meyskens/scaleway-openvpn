@@ -17,7 +17,7 @@ RUN /usr/local/sbin/scw-builder-enter
 
 # Install packages
 RUN apt-get -q update        \
- && apt-get -y -q upgrade    \
+ && apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade    \
  && apt-get install -y -q    \
 	curl                 \
 	iptables             \
