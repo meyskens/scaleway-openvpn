@@ -26,7 +26,6 @@ redirect-gateway def1
 <connection>
 remote $MY_IP_ADDR 1194 udp
 </connection>
-`[ "$MY_IP6_ADDR" != "" ] && echo -e "<connection>\nremote $MY_IP6_ADDR tcp6-client\n</connection>"`
 <connection>
 remote $MY_IP_ADDR 443 tcp-client
 </connection>
