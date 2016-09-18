@@ -40,7 +40,6 @@ EOF
 	depmod -a
 }
 
-
 # OpenVPN Setup
 [ -d /dev/net ] || \
     mkdir -p /dev/net
@@ -60,7 +59,14 @@ chmod 600 /etc/openvpn/key.pem
     sed -i s/ENABLED=0/ENABLED=1/g /etc/default/stunnel4
 [ -f /root/client.ovpn ] || \
 	build_conf && \
+	sleep 10 && \
     systemctl enable openvpn@tcp443 && \
-    systemctl enable openvpn@udp1194
+    systemctl enable openvpn@udp1194 && \
+	systemctl start openvpn@tcp443 && \
+    systemctl start openvpn@udp1194
+
+#v6 Setup
+/usr/local/bin/nat6 &
+#ip addr add dda6:cb33:d266::1/64 dev tun1194
 
 exit 0
