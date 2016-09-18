@@ -8,5 +8,6 @@ do
 	sleep 10
 	line=`route -A inet6 | grep ::/0 | awk 'END{print NR}'`
 done
-ip6tables -t nat -I POSTROUTING -s 'dda6:cb33:d266::/64' -j MASQUERADE
+ip6tables -t nat -I POSTROUTING -s 'dda6:cb33:d267::/64' -j MASQUERADE
+ip6tables -t nat -I POSTROUTING -s 'dda6:cb33:d268::/64' -j MASQUERADE
 route -A inet6 add 2000::/3 `route -A inet6 | grep ::/0 | awk 'NR==1{print "gw "$2" dev "$7}'`
