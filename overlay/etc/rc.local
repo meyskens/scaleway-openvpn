@@ -59,6 +59,8 @@ chmod 600 /etc/openvpn/key.pem
     sed -i s/ENABLED=0/ENABLED=1/g /etc/default/stunnel4
 [ -f /root/client.ovpn ] || \
 	build_conf && \
+	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/udp1194-ipv6.conf >>/etc/openvpn/udp1194.conf && \
+	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/tcp443-ipv6.conf >>/etc/openvpn/tcp443.conf && \
 	sleep 10 && \
     systemctl enable openvpn@tcp443 && \
     systemctl enable openvpn@udp1194 && \
@@ -66,7 +68,6 @@ chmod 600 /etc/openvpn/key.pem
     systemctl start openvpn@udp1194
 
 #v6 Setup
-/usr/local/bin/nat6 &
-#ip addr add dda6:cb33:d266::1/64 dev tun1194
+[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && /usr/local/bin/nat6 &
 
 exit 0
