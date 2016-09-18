@@ -63,7 +63,7 @@ chmod 600 /etc/openvpn/key.pem
     systemctl enable openvpn@udp1194 && \
 	systemctl start openvpn@tcp443 && \
     systemctl start openvpn@udp1194 && \
-	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile
+	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile &&\
 	systemctl enable caddy && \
 	systemctl start caddy
 
