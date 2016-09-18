@@ -1,0 +1,3 @@
+*.pub.cloud.scaleway.com {
+    root /var/www/openvpn
+}

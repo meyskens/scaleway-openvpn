@@ -30,15 +30,12 @@ remote $MY_IP_ADDR 443 tcp-client
 EOF
 	PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-	BASEDIR=/tmp/publish-vpn-config
+	BASEDIR=/var/www/openvpn
 	UUID=$(uuid)
 
 	rm -rf $BASEDIR && mkdir -p $BASEDIR/$UUID && touch $BASEDIR/index.html
 	cp /root/client.ovpn $BASEDIR/$UUID/$(oc-metadata --cached HOSTNAME).ovpn
 
-	(ps aux | grep SimpleHTTP | grep -v grep | awk '{print $2}' | xargs kill -9) >/dev/null 2>/dev/null
-	sleep .1
-	(cd $BASEDIR && python -m SimpleHTTPServer 8000 &) >/dev/null 2>/dev/null
 	scw-sync-kernel-modules
 	depmod -a
 }
