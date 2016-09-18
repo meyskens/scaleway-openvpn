@@ -22,7 +22,7 @@ redirect-gateway def1
 <dh>
 `cat /etc/openvpn/dh.pem`
 </dh>
-`[ "$MY_IP6_ADDR" != "" ] && echo -e "<connection>\nremote $MY_IP6_ADDR udp6\n</connection>"`
+`[ "$MY_IP6_ADDR" != "" ] && echo -e "<connection>\nremote $MY_IP6_ADDR 1194 udp6\n</connection>"`
 <connection>
 remote $MY_IP_ADDR 1194 udp
 </connection>
