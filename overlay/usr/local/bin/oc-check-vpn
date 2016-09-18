@@ -22,7 +22,7 @@ then
 	echo -ne "\r100%"
 fi
 
-UUID=$(ls /tmp/publish-vpn-config/ | grep -v index.html)
+UUID=$(ls /var/www/openvpn | grep -v index.html)
 
 cat << EOF #!/bin/bash
 
