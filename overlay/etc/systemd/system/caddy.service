@@ -7,7 +7,7 @@ After=network-online.target
 User=www-data
 LimitNOFILE=16384
 PIDFile=/run/caddy/caddy.pid
-ExecStart=/usr/local/bin/caddy -agree=true -conf=/etc/caddy/caddy.conf -log=stderr -pidfile=/run/caddy/caddy.pid
+ExecStart=/usr/local/bin/caddy -agree=true -conf=/etc/caddy/Caddyfile -log=stderr -pidfile=/run/caddy/caddy.pid
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 Restart=on-failure
 Environment=HOME=/etc/ssl/caddy
