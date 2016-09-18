@@ -41,8 +41,7 @@ RUN curl https://getcaddy.com | bash && \
 	chown -R root:www-data /etc/caddy  && \
 	mkdir /etc/ssl/caddy  && \
 	chown -R www-data:root /etc/ssl/caddy  && \
-	chmod 0770 /etc/ssl/caddy && \
-	setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy 
+	chmod 0770 /etc/ssl/caddy
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/scw-builder-leave

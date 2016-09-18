@@ -51,6 +51,7 @@ EOF
 	systemctl start openvpn@tcp443
     systemctl start openvpn@udp1194
 	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile
+	setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy 
 	systemctl enable caddy 
 	systemctl start caddy
 }
