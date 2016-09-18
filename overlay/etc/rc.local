@@ -41,6 +41,18 @@ EOF
 
 	scw-sync-kernel-modules
 	depmod -a
+
+	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/udp1194-ipv6.conf >>/etc/openvpn/udp1194.conf
+	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/tcp443-ipv6.conf >>/etc/openvpn/tcp443.conf
+	rm -f /etc/openvpn/*-ipv6.conf
+	sleep 10
+    systemctl enable openvpn@tcp443
+    systemctl enable openvpn@udp1194
+	systemctl start openvpn@tcp443
+    systemctl start openvpn@udp1194
+	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile
+	systemctl enable caddy 
+	systemctl start caddy
 }
 
 # OpenVPN Setup
@@ -58,17 +70,7 @@ chmod 600 /etc/openvpn/key.pem
 [ -f /etc/openvpn/cert.pem ] || \
     openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 24855
 [ -f /root/client.ovpn ] || \
-	build_conf && \
-	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/udp1194-ipv6.conf >>/etc/openvpn/udp1194.conf && \
-	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/tcp443-ipv6.conf >>/etc/openvpn/tcp443.conf && \
-	sleep 10 && \
-    systemctl enable openvpn@tcp443 && \
-    systemctl enable openvpn@udp1194 && \
-	systemctl start openvpn@tcp443 && \
-    systemctl start openvpn@udp1194 && \
-	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile &&\
-	systemctl enable caddy && \
-	systemctl start caddy
+	build_conf
 
 #v6 Setup
 [ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && /usr/local/bin/nat6 &
