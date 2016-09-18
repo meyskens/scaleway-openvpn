@@ -24,7 +24,6 @@ RUN apt-get -q update        \
 	iptables             \
 	iptables-persistent  \
 	openvpn              \
-	stunnel4             \
 	uuid                 \
  && apt-get clean
 
@@ -42,8 +41,8 @@ RUN curl https://getcaddy.com | bash && \
 	chown -R root:www-data /etc/caddy  && \
 	mkdir /etc/ssl/caddy  && \
 	chown -R www-data:root /etc/ssl/caddy  && \
-	chmod 0770 /etc/ssl/caddy  && \
-	systemctl enable caddy
+	chmod 0770 /etc/ssl/caddy && \
+	setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy 
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/scw-builder-leave

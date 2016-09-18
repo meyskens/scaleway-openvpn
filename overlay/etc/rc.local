@@ -54,9 +54,6 @@ chmod 600 /etc/openvpn/key.pem
     openssl req -new -key /etc/openvpn/key.pem -out /etc/openvpn/csr.pem -subj /CN=OpenVPN/
 [ -f /etc/openvpn/cert.pem ] || \
     openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 24855
-[ -f /etc/stunnel/stunnel.pem ] || \
-    cat /etc/openvpn/key.pem /etc/openvpn/cert.pem >> /etc/stunnel/stunnel.pem && \
-    sed -i s/ENABLED=0/ENABLED=1/g /etc/default/stunnel4
 [ -f /root/client.ovpn ] || \
 	build_conf && \
 	[ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && cat /etc/openvpn/udp1194-ipv6.conf >>/etc/openvpn/udp1194.conf && \
@@ -65,7 +62,10 @@ chmod 600 /etc/openvpn/key.pem
     systemctl enable openvpn@tcp443 && \
     systemctl enable openvpn@udp1194 && \
 	systemctl start openvpn@tcp443 && \
-    systemctl start openvpn@udp1194
+    systemctl start openvpn@udp1194 && \
+	sed -i "s/\$ID/$(oc-metadata --cached ID)/g" /etc/caddy/Caddyfile
+	systemctl enable caddy && \
+	systemctl start caddy
 
 #v6 Setup
 [ "$(oc-metadata --cached IPV6_ADDRESS)" != "" ] && /usr/local/bin/nat6 &

@@ -1,4 +1,3 @@
-http://*.pub.cloud.scaleway.com {
-    bind 127.0.0.1
-    root /var/www/openvpn
+https://$ID.pub.cloud.scaleway.com:442 {
+	root /var/www/openvpn
 }
