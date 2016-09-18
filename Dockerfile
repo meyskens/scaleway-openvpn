@@ -33,12 +33,12 @@ COPY ./overlay/ /
 
 # Install Caddy
 RUN curl https://getcaddy.com | bash && \
-	groupadd -g 33 www-data  && \
+	groupadd -g 33 www-data || true && \
 	useradd \
   		-g www-data --no-user-group \
   		--home-dir /var/www --no-create-home \
  		--shell /usr/sbin/nologin \
-  		--system --uid 33 www-data  && \
+  		--system --uid 33 www-data  || true  && \
 	chown -R root:www-data /etc/caddy  && \
 	mkdir /etc/ssl/caddy  && \
 	chown -R www-data:root /etc/ssl/caddy  && \
